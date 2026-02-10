@@ -37,5 +37,4 @@ class DeliveryOut(DeliveryBase):
     driver: Optional[DriverOut] = None
     restaurant: Optional[RestaurantOut] = None
 
-    class Config:
-        orm_mode = True
+    model_config = {"from_attributes": True}

@@ -37,5 +37,4 @@ class RestuarantOut(RestaurantBase):
     id: int
     uid: Union[str, UUID]
 
-    class Config:
-        orm_mode = True
+    model_config = {"from_attributes": True}

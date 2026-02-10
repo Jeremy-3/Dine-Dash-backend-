@@ -2,7 +2,7 @@ from pydantic import BaseModel,field_validator
 from typing import Optional
 from decimal import Decimal
 
-class foodBase(BaseModel):
+class FoodBase(BaseModel):
     name: str
     description: Optional[str] = None
     category:str
@@ -16,15 +16,15 @@ class foodBase(BaseModel):
             raise ValueError("Price must be greater than 0")
         return v
 
-class foodCreate(foodBase):
+class FoodCreate(FoodBase):
     pass
 
-class foodUpdate(BaseModel):
+class FoodUpdate(BaseModel):
     name: Optional[str] = None
     description: Optional[str] = None
     category:Optional[str] = None
     price: Optional[Decimal] = None
-    avialable: Optional[bool] = None
+    available: Optional[bool] = None
 
     @field_validator("price")
     @classmethod
@@ -33,8 +33,8 @@ class foodUpdate(BaseModel):
             raise ValueError("Price must be greater than 0")
         return v
     
-class foodOut(foodBase):
+class FoodOut(FoodBase):
     id: int
 
-    class Config:
-        orm_mode = True
+    model_config = {"from_attributes": True}
+

@@ -36,5 +36,4 @@ class DriverOut(DriverBase):
     updated_at: Optional[datetime] = None
     user: Optional[UserOut] = None
 
-    class Config:
-        orm_mode = True
+    model_config = {"from_attributes": True}

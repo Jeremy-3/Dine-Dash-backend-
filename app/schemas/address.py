@@ -24,5 +24,4 @@ class AddressOut(AddressBase):
     id:int
     order: Optional[OrderOut] = None
 
-    class Config:
-        orm_mode = True
+    model_config = {"from_attributes": True}

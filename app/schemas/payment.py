@@ -1,6 +1,5 @@
 from pydantic import BaseModel,field_validator
-from typing import Optional, Union
-from uuid import UUID
+from typing import Optional
 from decimal import Decimal
 from app.schemas.constants import PAYMENT_STATUSES
 from datetime import datetime
@@ -48,8 +47,6 @@ class PaymentUpdate(BaseModel):
     
 class PaymentOut(PaymentBase):
     id: int
-    uid: Union[str, UUID]
     paid_at: Optional[datetime] = None
 
-    class Config:
-        orm_mode = True
+    model_config = {"from_attributes": True}

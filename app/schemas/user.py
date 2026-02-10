@@ -50,6 +50,6 @@ class UserOut(UserBase):
     uid: Union[str, UUID]
     role:RoleOut= None
 
-    class Config:
-        orm_mode = True
+    model_config = {"from_attributes": True}
+
 

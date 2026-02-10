@@ -1,6 +1,7 @@
 from pydantic import BaseModel, field_validator
 from typing import Optional
 from app.schemas.constants import ORDER_STATUSES
+from datetime import datetime
 
 class OrderStatusHistoryBase(BaseModel):
     order_id: int
@@ -28,7 +29,6 @@ class OrderStatusHistoryUpdate(BaseModel):
     
 class OrderStatusHistoryOut(OrderStatusHistoryBase):
     id: int
-    created_at: str
+    created_at: datetime
 
-    class Config:
-        orm_mode = True
+    model_config = {"from_attributes": True}

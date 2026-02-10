@@ -15,7 +15,14 @@ class OrderItemBase(BaseModel):
         if v <= 0:
             raise ValueError("Price at order must be greater than 0")
         return v
-
+    
+    @field_validator("quantity")
+    @classmethod
+    def validate_quantity(cls, v):
+        if v <= 0:
+            raise ValueError("Quantity must be greater than 0")
+        return v
+    
 class OrderItemCreate(OrderItemBase):
     pass
 
@@ -30,10 +37,17 @@ class OrderItemUpdate(BaseModel):
             raise ValueError("Price at order must be greater than 0")
         return v
     
+    @field_validator("quantity")
+    @classmethod    
+    def validate_quantity(cls, v):
+        if v is not None and v <= 0:
+            raise ValueError("Quantity must be greater than 0")
+        return v
+
 class OrderItemOut(OrderItemBase):
     id: int
     order: Optional[OrderOut] = None
     food: Optional[foodOut] = None
 
-    class Config:
-        orm_mode = True
+    model_config = {"from_attributes": True}
+
