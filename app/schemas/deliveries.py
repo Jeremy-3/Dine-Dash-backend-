@@ -1,9 +1,10 @@
 from pydantic import BaseModel, field_validator
-from typing import Optional
+from typing import Optional,Union
 from app.schemas.constants import DELIVERY_STATUSES
 from app.schemas.order import OrderOut
 from app.schemas.driver import DriverOut
 from app.schemas.restaurant import RestaurantOut
+from uuid import UUID
 
 class DeliveryBase(BaseModel):
     order_id:int
@@ -33,6 +34,7 @@ class DeliveryUpdate(BaseModel):
     
 class DeliveryOut(DeliveryBase):
     id: int
+    uid:Union[str]
     order: Optional[OrderOut] = None
     driver: Optional[DriverOut] = None
     restaurant: Optional[RestaurantOut] = None

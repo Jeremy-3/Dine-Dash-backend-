@@ -2,13 +2,14 @@ from sqlalchemy import Column,String,Integer,TIMESTAMP,Numeric,Boolean,Text
 from sqlalchemy.orm import relationship
 from app.db.base import Base
 from datetime import datetime,timezone
-
-
+from uuid import UUID
+import uuid
 
 class Food(Base):
     __tablename__ = "foods"
     
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    uid=Column(UUID(as_uuid=True),unique=True,default=uuid.uuid4,nullable=False,index=True)
     name = Column(String(255), nullable=False)
     description = Column(Text, nullable=True)
     category = Column(String(100),index=True)

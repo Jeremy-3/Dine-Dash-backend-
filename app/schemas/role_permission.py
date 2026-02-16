@@ -15,7 +15,7 @@ class RolePermissionCreate(RolePermissionBase):
 
 class RolePermissionAssign(BaseModel):
     role_id:int
-    permissions_id:List[int]
+    permission_id:List[int]
     
 class RolePermissionDeassignOut(BaseModel):
     removed: List[int]

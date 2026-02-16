@@ -1,7 +1,7 @@
 from pydantic import BaseModel,field_validator
-from typing import Optional
+from typing import Optional,Union
 from decimal import Decimal
-
+from uuid import UUID
 class FoodBase(BaseModel):
     name: str
     description: Optional[str] = None
@@ -35,6 +35,7 @@ class FoodUpdate(BaseModel):
     
 class FoodOut(FoodBase):
     id: int
+    uid : Union[str, UUID]
 
     model_config = {"from_attributes": True}
 
