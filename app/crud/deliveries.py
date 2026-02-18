@@ -30,7 +30,7 @@ class CRUDDelivery(CRUDBase[MODEL]):
         return delivery
 
 
-    def assign_driver(self, db: Session, uid: UUID, driver_id: int):
+    def assign_delivery(self, db: Session, uid: UUID, driver_id: int):
             delivery = self.get_record_by_field(db, "uid", uid)
             if not delivery:
                 raise HTTPException(

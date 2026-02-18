@@ -65,12 +65,12 @@ class CRUDPayment(CRUDBase[MODEL]):
         db.refresh(payment)
         return payment
 
-    def get_payment_by_order(self,db: Session, order_id: int):
+    def get_payments_by_order(self,db: Session, order_uid: UUID):
         """
-        Fetch payment by order ID.
+        Fetch payments by order UID.
         """
-        return self.get_record_by_field(db, "order_id", order_id)
-
+        return self.get_records_by_field(db, "order_uid", order_uid)
+    
     def delete_payment(self,db: Session, payment_id: int):
         """
         Delete payment (use with caution).
