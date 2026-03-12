@@ -1,6 +1,6 @@
 from app.dependencies.rbac import require_permission
 from app.crud.deliveries import crud_delivery
-from app.schemas.delivery import DeliveryCreate, DeliveryUpdate
+from app.schemas.deliveries import DeliveryCreate, DeliveryUpdate
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from app.db.session import get_db

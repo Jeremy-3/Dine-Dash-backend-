@@ -20,7 +20,7 @@ ORDER_STATUS_FLOW = {
 }
 
 
-class CRUDOrder(CRUDBase[MODEL]):
+class CRUDOrder(CRUDBase[MODEL,OrderCreate]):
     """CRUD operations for Order model"""
     def create_order(self, db: Session, order_in: OrderCreate) -> Order:
         total = order_in.subtotal + order_in.delivery_fee

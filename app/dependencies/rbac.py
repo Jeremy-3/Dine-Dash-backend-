@@ -11,8 +11,7 @@ def require_permission(permission_name: str):
         db: Session = Depends(get_db),
         current_user: User = Depends(get_current_user),
     ):
-        # Superadmin bypass (optional but recommended)
-        if current_user.is_superadmin:
+        if current_user.role_id == 1:
             return True
 
         perms = (

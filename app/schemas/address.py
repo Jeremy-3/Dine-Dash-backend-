@@ -1,6 +1,6 @@
 from pydantic import BaseModel, field_validator
 from typing import Optional
-from app.schemas.orders import OrderOut
+from app.schemas.order import OrderOut
 
 class AddressBase(BaseModel):
     order_id: int

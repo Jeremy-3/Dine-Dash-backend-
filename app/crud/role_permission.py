@@ -7,18 +7,19 @@ from app.schemas.role_permission import (
 )
 from app.crud.base import CRUDBase
 
+MODEL = RolePermission
 
-class CRUDRolePermission(CRUDBase[RolePermission, RolePermissionAssign]):
+class CRUDRolePermission(CRUDBase[MODEL, RolePermissionAssign]): 
     """RBAC role-permission assignment logic"""
 
-    def assign_permissions(self,db: Session,record_in: RolePermissionAssign) -> list[int]:
+    def assign_permissions(self, db: Session, record_in: RolePermissionAssign) -> list[int]:
 
         assigned = []
 
         try:
             for permission_id in record_in.permissions_id:
                 exists = self.get_record_by_fields(db,
-                    {
+                    { 
                         "role_id": record_in.role_id,
                         "permission_id": permission_id,
                     },
@@ -39,7 +40,7 @@ class CRUDRolePermission(CRUDBase[RolePermission, RolePermissionAssign]):
             db.rollback()
             raise
 
-    def deassign_permissions(self,db: Session,record_in: RolePermissionAssign) -> RolePermissionDeassignOut:
+    def deassign_permissions(self, db: Session, record_in: RolePermissionAssign) -> RolePermissionDeassignOut:
 
         removed = []
         not_found = []
@@ -76,4 +77,4 @@ class CRUDRolePermission(CRUDBase[RolePermission, RolePermissionAssign]):
             raise
 
 
-crud_role_permission = CRUDRolePermission(RolePermission)
+crud_role_permission = CRUDRolePermission(MODEL)

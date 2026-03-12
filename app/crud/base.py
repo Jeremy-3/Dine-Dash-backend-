@@ -10,7 +10,7 @@ ModelType = TypeVar("ModelType")
 SchemaType = TypeVar("SchemaType", bound=BaseModel)
 
 
-class CRUDBase(Generic[ModelType, SchemaType]):
+class CRUDBase(Generic[ModelType,SchemaType]):
     def __init__(self, model: Type[ModelType]):
         self.model = model
 

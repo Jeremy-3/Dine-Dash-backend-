@@ -1,15 +1,14 @@
-from sqlalchemy import Column,Integer,TIMESTAMP,func,ForeignKey
+from sqlalchemy import Column,Integer,TIMESTAMP,func,ForeignKey,text
 from sqlalchemy.orm import relationship
 from datetime import timezone,datetime
 from app.db.base import Base
 from sqlalchemy.dialects.postgresql import UUID 
-import uuid
 
 class RolePermission(Base):
     __tablename__ = "role_permissions"
     
     id = Column(Integer, primary_key=True)
-    uid=Column(UUID(as_uuid=True),unique=True,default=uuid.uuid4,nullable=False,index=True)
+    uid = Column(UUID(as_uuid=True),unique=True,nullable=False,index=True,server_default=text("gen_random_uuid()"))      
     role_id = Column(Integer, ForeignKey('roles.id'), nullable=False)
     permission_id = Column(Integer, ForeignKey('permissions.id'), nullable=False)
 

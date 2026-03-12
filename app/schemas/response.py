@@ -5,7 +5,7 @@ from pydantic.generics import GenericModel
 T = TypeVar("T")
 
 class ResponseModel(GenericModel, Generic[T]):
-    success: bool
+    success: bool = True
     data: Optional[T] = None
     message: Optional[str] = "Operation Successful"
     errors: Optional[Any] = None

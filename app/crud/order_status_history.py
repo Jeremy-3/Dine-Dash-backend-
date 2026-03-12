@@ -11,7 +11,7 @@ from app.crud.base import CRUDBase
 MODEL = OrderStatusHistory
 
 
-class CRUDOrderStatusHistory(CRUDBase[MODEL]):
+class CRUDOrderStatusHistory(CRUDBase[MODEL,OrderStatusHistoryCreate]):
     """Append-only CRUD for OrderStatusHistory"""
 
     # -------------------------

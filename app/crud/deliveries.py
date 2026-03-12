@@ -16,7 +16,7 @@ ALLOWED_DELIVERY_TRANSITIONS = {
     "picked_up": ["delivered"],
 }
 
-class CRUDDelivery(CRUDBase[MODEL]):
+class CRUDDelivery(CRUDBase[MODEL,DeliveryCreate]):
     def create_delivery(self, db: Session, record_create: DeliveryCreate):
         # Ensure one delivery per order
         existing = self.get_record_by_field(db, "order_id", record_create.order_id)

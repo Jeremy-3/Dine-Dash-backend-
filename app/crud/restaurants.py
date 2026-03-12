@@ -7,7 +7,7 @@ from uuid import UUID
 
 MODEL = Restaurant
 
-class CrudRestaurant(CRUDBase[MODEL]):
+class CrudRestaurant(CRUDBase[MODEL,RestaurantCreate]):
     """CRUD operations for Restaurant model"""
     
     def create_restaurant(self, db:Session, record_create:RestaurantCreate):

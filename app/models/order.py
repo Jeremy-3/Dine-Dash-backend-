@@ -1,8 +1,7 @@
-from sqlalchemy import Column,String,Integer,TIMESTAMP,ForeignKey,Numeric,func
+from sqlalchemy import Column,String,Integer,TIMESTAMP,ForeignKey,Numeric,func,text
 from sqlalchemy.orm import relationship
 from app.db.base import Base
 from sqlalchemy.dialects.postgresql import UUID 
-import uuid
 from datetime import datetime,timezone
 
 
@@ -11,7 +10,7 @@ class Order(Base):
     __tablename__ = "orders"
     
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    uid=Column(UUID(as_uuid=True),unique=True,default=uuid.uuid4,nullable=False,index=True)
+    uid = Column(UUID(as_uuid=True),unique=True,nullable=False,index=True,server_default=text("gen_random_uuid()"))      
     customer_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
     status = Column(String, nullable=False, default="pending", index=True)
     subtotal = Column(Numeric(10, 2), nullable=False)

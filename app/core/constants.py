@@ -266,7 +266,8 @@ DEFAULT_USERS = [
         "email": settings.SUPERADMIN_EMAIL,
         "phone": settings.SUPERADMIN_PHONE,
         "password_hash": hash_password(settings.SUPERADMIN_PASSWORD),
-        "role_id": ROLE_SUPERADMIN_ID
+        "role_id": ROLE_SUPERADMIN_ID,
+        "is_active":True
     },
     {
         "id": 2,
@@ -275,6 +276,7 @@ DEFAULT_USERS = [
         "phone": "+1555000100",
         "password_hash": hash_password("demo123"),
         "role_id": ROLE_ADMIN_ID,
+        "is_active":True
     },
     {
         "id": 3,
@@ -283,6 +285,7 @@ DEFAULT_USERS = [
         "phone": "+1555000102",
         "password_hash": hash_password("demo123"),
         "role_id": ROLE_MANAGER_ID,
+        "is_active":True
     },
     {
         "id": 4,
@@ -291,6 +294,7 @@ DEFAULT_USERS = [
         "phone": "+1555000103",
         "password_hash": hash_password("demo123"),
         "role_id": ROLE_DRIVER_ID,
+        "is_active":True
     },
     {
         "id": 5,
@@ -299,6 +303,7 @@ DEFAULT_USERS = [
         "phone": "+1555000203",
         "password_hash": hash_password("demo123"),
         "role_id": ROLE_DRIVER_ID,
+        "is_active":True
     },
     {
         "id": 6,
@@ -307,6 +312,7 @@ DEFAULT_USERS = [
         "phone": "+1555000303",
         "password_hash": hash_password("demo123"),
         "role_id": ROLE_DRIVER_ID,
+        "is_active":True
     },
     {
         "id": 7,
@@ -315,6 +321,7 @@ DEFAULT_USERS = [
         "phone": "+1555000101",
         "password_hash": hash_password("demo123"),
         "role_id": ROLE_CUSTOMER_ID,
+        "is_active":True
     },
     {
         "id": 8,
@@ -323,6 +330,7 @@ DEFAULT_USERS = [
         "phone": "+1555000201",
         "password_hash": hash_password("demo123"),
         "role_id": ROLE_CUSTOMER_ID,
+        "is_active":True
     },
     {
         "id": 9,
@@ -331,6 +339,7 @@ DEFAULT_USERS = [
         "phone": "+1555000301",
         "password_hash": hash_password("demo123"),
         "role_id": ROLE_CUSTOMER_ID,
+        "is_active":True
     },
 ]
 

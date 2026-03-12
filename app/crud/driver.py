@@ -8,7 +8,7 @@ from uuid import UUID
 from app.core.constants import ROLE_DRIVER_ID
 
 
-class CRUDDriver(CRUDBase[Driver]):
+class CRUDDriver(CRUDBase[Driver,DriverCreate]):
     def create_driver(self, db: Session, record_create: DriverCreate):
         # ensure user exists
         user = db.query(User).filter(User.id == record_create.user_id).first()

@@ -7,7 +7,7 @@ from uuid import UUID
 MODEL = Food
 
 
-class CRUDFood(CRUDBase[MODEL]):
+class CRUDFood(CRUDBase[MODEL,FoodCreate]):
     def create_food(self, db:Session, record_create:FoodCreate):
         # check if food already exists with same name
         existing_record = self.get_record_by_field(db, "name", record_create.name)

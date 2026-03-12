@@ -33,7 +33,7 @@ class RestaurantUpdate(BaseModel):
         return v
 
 
-class RestuarantOut(RestaurantBase):
+class RestaurantOut(RestaurantBase):
     id: int
     uid: Union[str, UUID]
 

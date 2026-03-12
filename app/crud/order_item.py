@@ -19,7 +19,7 @@ NON_EDITABLE_STATUSES = {
 MODEL = OrderItem
 
 
-class CRUDOrderItem(CRUDBase[MODEL]):
+class CRUDOrderItem(CRUDBase[MODEL,OrderItemCreate]):
     """CRUD operations for OrderItem"""
 
     # Helpers
@@ -131,3 +131,5 @@ class CRUDOrderItem(CRUDBase[MODEL]):
         order.subtotal = subtotal
         order.total = subtotal + order.delivery_fee
         db.add(order)
+
+crud_order_item = CRUDOrderItem(MODEL)

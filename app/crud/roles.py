@@ -1,13 +1,13 @@
-from app.models.roles import Role
+from app.models.roles import Roles
 from app.schemas.roles import RoleCreate, RoleOut, RoleUpdate
 from sqlalchemy.orm import Session
 from fastapi import HTTPException, status
 from app.crud.base import CRUDBase
 from uuid import UUID
 
-MODEL = Role
+MODEL = Roles
 
-class CRUDRole(CRUDBase[MODEL]):
+class CRUDRole(CRUDBase[MODEL,RoleCreate]):
     """CRUD operations for Role model"""
 
     def create_role(self, db:Session, record_create:RoleCreate):

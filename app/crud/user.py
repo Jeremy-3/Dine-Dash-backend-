@@ -9,7 +9,7 @@ from app.crud.base import CRUDBase
 
 MODEL = User
 
-class CRUDUser(CRUDBase[MODEL]):
+class CRUDUser(CRUDBase[MODEL,UserCreate]):
     """CRUD operations for User model"""
 
     def create_user(self,db:Session,record_create:UserCreate):

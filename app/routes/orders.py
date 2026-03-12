@@ -9,12 +9,12 @@ from uuid import UUID
 
 router = APIRouter(prefix="/orders", tags=["orders"])
 
-@router.post("/", response_model=ResponseModel, dependencies=[Depends(require_permission("orders.create"))])
+@router.post("", response_model=ResponseModel, dependencies=[Depends(require_permission("orders.create"))])
 def create_order(order_create: OrderCreate, db: Session = Depends(get_db)):
     new_order = crud_order.create_order(db, order_create)
     return ResponseModel(data=new_order, message="Order created successfully")
 
-@router.get("/", response_model=ResponseModel, dependencies=[Depends(require_permission("orders.view"))])
+@router.get("", response_model=ResponseModel, dependencies=[Depends(require_permission("orders.view"))])
 def get_all_orders(db: Session = Depends(get_db)):
     orders = crud_order.read(db)
     return ResponseModel(data=orders, message="Orders retrieved successfully")      

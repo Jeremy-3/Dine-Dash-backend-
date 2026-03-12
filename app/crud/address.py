@@ -6,7 +6,7 @@ from fastapi import HTTPException, status
 
 MODEL = Address
 
-class CRUDAddress(CRUDBase[MODEL]):
+class CRUDAddress(CRUDBase[MODEL,AddressCreate]):
     def create_address(self, db:Session, record_create:AddressCreate):
         return self.create(db, record_create)
     

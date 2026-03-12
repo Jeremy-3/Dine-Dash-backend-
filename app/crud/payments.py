@@ -5,11 +5,11 @@ from app.models.payment import Payment
 from app.schemas.payment import PaymentCreate, PaymentUpdate
 from app.crud.base import CRUDBase
 from app.schemas.constants import PAYMENT_STATUSES
-
+from uuid import UUID
 
 MODEL = Payment
 
-class CRUDPayment(CRUDBase[MODEL]):
+class CRUDPayment(CRUDBase[MODEL,PaymentCreate]):
     """CRUD operations for Payment model"""
 
     def create_payment(self,db: Session,payment_in: PaymentCreate,):

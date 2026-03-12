@@ -7,7 +7,7 @@ from uuid import UUID
 
 MODEL = Permissions
 
-class CRUDPermission(CRUDBase[MODEL]):
+class CRUDPermission(CRUDBase[MODEL,PermissionCreate]):
     """ CRUD operations for Permissions model   """
     def create_permission(self, db:Session, record_create:PermissionCreate):
         existing_record = self.get_record_by_field(db, "name", record_create.name)

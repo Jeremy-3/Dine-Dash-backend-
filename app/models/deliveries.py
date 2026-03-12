@@ -1,8 +1,8 @@
-from sqlalchemy import Column,String,Integer,TIMESTAMP,ForeignKey,DateTime
+from sqlalchemy import Column,String,Integer,TIMESTAMP,ForeignKey,DateTime,text
 from sqlalchemy.orm import relationship
 from app.db.base import Base
 from datetime import datetime
-from uuid import UUID
+from sqlalchemy.dialects.postgresql import UUID 
 import uuid
 
 
@@ -11,7 +11,15 @@ class Delivery(Base):
     
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     order_id = Column(Integer, ForeignKey("orders.id", ondelete="CASCADE"), nullable=False, unique=True)
-    uid=Column(UUID(as_uuid=True),unique=True,default=uuid.uuid4,nullable=False,index=True)   
+    
+    uid = Column(
+    UUID(as_uuid=True),
+    unique=True,
+    nullable=False,
+    index=True,
+    server_default=text("gen_random_uuid()")
+    )    
+
     driver_id = Column(Integer, ForeignKey("drivers.id", ondelete="RESTRICT"), nullable=False)
     restaurant_id = Column(Integer, ForeignKey("restaurants.id", ondelete="RESTRICT"), nullable=False)
     assigned_by = Column(Integer, ForeignKey("users.id", ondelete="SET NULL"), nullable=True)

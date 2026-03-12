@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status,Query
 from sqlalchemy.orm import Session
 from app.db.session import get_db
 from app.crud.user import crud_user 
@@ -16,11 +16,21 @@ def create__user( user_create: UserCreate, db: Session = Depends(get_db)):
 
     return ResponseModel(data=new_user, message="User created successfully")
 
-@router.get("/", response_model=ResponseModel[List[UserOut]],dependencies=[Depends(require_permission("users.view_all"))])
-def get_all_users(db: Session = Depends(get_db)):
-    users = crud_user.read(db)
-    return ResponseModel(data=users, message="Users retrieved successfully")
+@router.get("/", response_model=ResponseModel[list[UserOut]], dependencies=[Depends(require_permission("users.view_all"))])
+def get_all_users(
+    page: int = Query(1, ge=1),
+    limit: int = Query(10, ge=1, le=100),
+    db: Session = Depends(get_db)
+):
+    users, total = crud_user.read(db, page=page, limit=limit)
 
+    
+    return ResponseModel(
+        success=True,
+        data=users,
+        total=total, 
+        message="Users retrieved successfully"
+    )
 
 @router.get("/{uid}", response_model=ResponseModel[UserOut],dependencies=[Depends(require_permission("users.view"))])
 def get_user(uid: UUID, db: Session = Depends(get_db)):

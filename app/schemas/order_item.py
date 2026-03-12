@@ -1,6 +1,6 @@
 from pydantic import BaseModel,field_validator
 from typing import Optional
-from app.schemas.foods import foodOut
+from app.schemas.foods import FoodOut
 from app.schemas.order import OrderOut
 from decimal import Decimal
 class OrderItemBase(BaseModel):
@@ -47,7 +47,7 @@ class OrderItemUpdate(BaseModel):
 class OrderItemOut(OrderItemBase):
     id: int
     order: Optional[OrderOut] = None
-    food: Optional[foodOut] = None
+    food: Optional[FoodOut] = None
 
     model_config = {"from_attributes": True}
 

@@ -1,8 +1,7 @@
-from sqlalchemy import Column,String,Integer,TIMESTAMP,func
+from sqlalchemy import Column,String,Integer,TIMESTAMP,func,text
 from sqlalchemy.orm import relationship
 from app.db.base import Base
 from sqlalchemy.dialects.postgresql import UUID 
-import uuid
 from datetime import datetime,timezone
 
 
@@ -11,7 +10,7 @@ class Restaurant(Base):
     __tablename__ = "restaurants"
     
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    uid=Column(UUID(as_uuid=True),unique=True,default=uuid.uuid4,nullable=False,index=True)
+    uid = Column(UUID(as_uuid=True),unique=True,nullable=False,index=True,server_default=text("gen_random_uuid()"))      
     name = Column(String(255), nullable=False)
     street = Column(String(255), nullable=True)
     city = Column(String(100), nullable=True)

@@ -30,8 +30,8 @@ class RolePermissionUpdate(BaseModel):
 class RolePermissionOut(BaseModel):
     id:int
     uid:Union[str,UUID]
-    role:RoleOut = None 
-    permission:PermissionOut = None
+    # role:RoleOut = None 
+    # permission:PermissionOut = None
     created_at:datetime
     updated_at: Optional[datetime] = None
 
