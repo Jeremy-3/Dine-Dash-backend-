@@ -25,4 +25,5 @@ class Restaurant(Base):
 
     # Relationships
     deliveries = relationship("Delivery", back_populates="restaurant")
+    orders = relationship("Order", back_populates="restaurant")
 

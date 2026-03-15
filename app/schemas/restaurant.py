@@ -11,9 +11,9 @@ class RestaurantBase(BaseModel):
     zip_code: str
     phone: str
 
-    @field_validator("phone")
-    def validate_phone(cls, v: str) -> str:
-        return validate_kenyan_phone_number(v)
+    # @field_validator("phone")
+    # def validate_phone(cls, v: str) -> str:
+    #     return validate_kenyan_phone_number(v)
     
 class RestaurantCreate(RestaurantBase):
     pass

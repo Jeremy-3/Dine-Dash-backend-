@@ -5,14 +5,14 @@ from sqlalchemy.orm import Session
 from app.db.session import get_db
 from app.schemas.response import ResponseModel
 from uuid import UUID
-from app.schemas.address import AddressCreate, AddressUpdate
+from app.schemas.address import AddressCreate, AddressOut
 
 router = APIRouter(prefix="/addresses", tags=["addresses"])
 
-@router.post("/", response_model=ResponseModel, dependencies=[Depends(require_permission("addresses.create"))])
+@router.post("/", response_model=ResponseModel[AddressOut], dependencies=[Depends(require_permission("addresses.create"))])
 def create_address(address_create: AddressCreate, db: Session = Depends(get_db)):
     new_address = crud_address.create_address(db, address_create)
-    return ResponseModel(data=new_address, message="Address created successfully")
+    return ResponseModel(data=AddressOut.model_validate(new_address), message="Address created successfully")
 
 
 @router.delete("/{uid}", response_model=ResponseModel, dependencies=[Depends(require_permission("addresses.delete"))])

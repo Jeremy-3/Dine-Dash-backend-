@@ -1,11 +1,11 @@
 from app.crud.foods import crud_food
 from app.dependencies.rbac import require_permission
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status , Query
 from sqlalchemy.orm import Session
 from app.db.session import get_db
 from app.schemas.response import ResponseModel
 from uuid import UUID
-from app.schemas.foods import FoodCreate, FoodUpdate
+from app.schemas.foods import FoodCreate, FoodUpdate , FoodOut
 
 router = APIRouter(prefix="/foods", tags=["foods"])
 
@@ -14,10 +14,14 @@ def create_food(food_create: FoodCreate, db: Session = Depends(get_db)):
     new_food = crud_food.create_food(db, food_create)
     return ResponseModel(data=new_food, message="Food created successfully")
 
-@router.get("/", response_model=ResponseModel, dependencies=[Depends(require_permission("foods.view"))])
-def get_all_foods(db: Session = Depends(get_db)):
-    foods = crud_food.read(db)
-    return ResponseModel(data=foods, message="Foods retrieved successfully")    
+@router.get("/", response_model=ResponseModel[list[FoodOut]], dependencies=[Depends(require_permission("foods.view"))])
+def get_all_foods(
+    page: int = Query(1, ge=1),
+    limit: int = Query(50, ge=1, le=100),
+    db: Session = Depends(get_db)):
+
+    foods, total = crud_food.read(db, page=page, limit=limit)
+    return ResponseModel(data=foods, message="Foods retrieved successfully", total=total)    
 
 @router.get("/{uid}", response_model=ResponseModel, dependencies=[Depends(require_permission("foods.view"))])
 def get_food(uid: UUID, db: Session = Depends(get_db)):

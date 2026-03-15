@@ -3,6 +3,7 @@ ORDER_STATUSES = {
     "pending",
     "confirmed",
     "preparing",
+    "picked_up",
     "in_transit",
     "delivered",
     "cancelled",

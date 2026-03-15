@@ -7,11 +7,13 @@ from app.core.security import verify_password, create_access_token
 from app.db.session import get_db
 from app.crud.user import crud_user
 from app.schemas.response import ResponseModel
+from app.schemas.user import UserCreate, UserOut
 
-router = APIRouter(prefix="/login", tags=["auth"])
+
+router = APIRouter(prefix="/auth", tags=["auth"])
 
 
-@router.post("", response_model=ResponseModel)
+@router.post("/login", response_model=ResponseModel)
 def login(user_login: Login, db: Session = Depends(get_db)):
     """Login endpoint"""
     # Check if user exists
@@ -78,3 +80,41 @@ def login(user_login: Login, db: Session = Depends(get_db)):
             },
             message="Login successful"
         )
+
+@router.post("/logout", response_model=ResponseModel)
+def logout():
+    """Logout endpoint"""
+    
+    return ResponseModel(
+        success=True,
+        data=None,
+        message="Logout successful"
+    )
+
+
+@router.post("/signup", response_model=ResponseModel[UserOut])
+def signup(user_create: UserCreate, db: Session = Depends(get_db)):
+    """Public signup endpoint"""
+
+    # Check if email already exists
+    existing_user = crud_user.get_record_by_field(db, "email", user_create.email)
+    if existing_user:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Email already registered"
+        )
+
+    # Default role assignment (customer)
+    if not user_create.role_id:
+        from app.models.roles import Roles
+        role = db.query(Roles).filter(Roles.name == "customer").first()
+        if role:
+            user_create.role_id = role.id
+
+    new_user = crud_user.create_user(db, user_create)
+
+    return ResponseModel(
+        success=True,
+        data=new_user,
+        message="User registered successfully"
+    )

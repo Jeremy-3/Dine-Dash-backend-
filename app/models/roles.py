@@ -17,7 +17,7 @@ class Roles(Base):
 
 
     # relations
-    role_permissions = relationship("RolePermission", back_populates="role")
+    role_permissions = relationship("RolePermission", back_populates="role", lazy="select")
     users = relationship("User", back_populates="role", foreign_keys="User.role_id")
 
     

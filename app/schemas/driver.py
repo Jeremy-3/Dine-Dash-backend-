@@ -5,6 +5,7 @@ from datetime import datetime
 from app.schemas.constants import DRIVER_STATUSES
 from app.schemas.user import UserOut
 
+
 class DriverBase(BaseModel):
     user_id: int
     status: str
@@ -15,9 +16,11 @@ class DriverBase(BaseModel):
         if v not in DRIVER_STATUSES:
             raise ValueError(f"Invalid driver status: {v}")
         return v
-    
+
+
 class DriverCreate(DriverBase):
     pass
+
 
 class DriverUpdate(BaseModel):
     status: Optional[str] = None
@@ -28,12 +31,15 @@ class DriverUpdate(BaseModel):
         if v is not None and v not in DRIVER_STATUSES:
             raise ValueError(f"Invalid driver status: {v}")
         return v
-    
-class DriverOut(DriverBase):
+
+
+class DriverOut(BaseModel):          # ← don't inherit DriverBase, define cleanly
     id: int
     uid: Union[str, UUID]
+    user_id: int
+    status: str
     created_at: datetime
     updated_at: Optional[datetime] = None
-    user: Optional[UserOut] = None
+    user: Optional[UserOut] = None   # ← nested user with name/email/phone
 
     model_config = {"from_attributes": True}

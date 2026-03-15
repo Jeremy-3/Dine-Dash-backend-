@@ -273,7 +273,7 @@ DEFAULT_USERS = [
         "id": 2,
         "name": "Admin User",
         "email": "admin@demo.com",
-        "phone": "+1555000100",
+        "phone": "0755000100",
         "password_hash": hash_password("demo123"),
         "role_id": ROLE_ADMIN_ID,
         "is_active":True
@@ -282,7 +282,7 @@ DEFAULT_USERS = [
         "id": 3,
         "name": "Sarah Manager",
         "email": "manager@demo.com",
-        "phone": "+1555000102",
+        "phone": "0755000102",
         "password_hash": hash_password("demo123"),
         "role_id": ROLE_MANAGER_ID,
         "is_active":True
@@ -291,7 +291,7 @@ DEFAULT_USERS = [
         "id": 4,
         "name": "Mike Driver",
         "email": "driver@demo.com",
-        "phone": "+1555000103",
+        "phone": "0755000103",
         "password_hash": hash_password("demo123"),
         "role_id": ROLE_DRIVER_ID,
         "is_active":True
@@ -309,7 +309,7 @@ DEFAULT_USERS = [
         "id": 6,
         "name": "Lisa Speed",
         "email": "driver3@demo.com",
-        "phone": "+1555000303",
+        "phone": "0755000303",
         "password_hash": hash_password("demo123"),
         "role_id": ROLE_DRIVER_ID,
         "is_active":True
@@ -318,7 +318,7 @@ DEFAULT_USERS = [
         "id": 7,
         "name": "John Customer",
         "email": "customer@demo.com",
-        "phone": "+1555000101",
+        "phone": "0755000101",
         "password_hash": hash_password("demo123"),
         "role_id": ROLE_CUSTOMER_ID,
         "is_active":True
@@ -327,7 +327,7 @@ DEFAULT_USERS = [
         "id": 8,
         "name": "Jane Smith",
         "email": "customer2@demo.com",
-        "phone": "+1555000201",
+        "phone": "0755000201",
         "password_hash": hash_password("demo123"),
         "role_id": ROLE_CUSTOMER_ID,
         "is_active":True
@@ -336,7 +336,7 @@ DEFAULT_USERS = [
         "id": 9,
         "name": "Bob Wilson",
         "email": "customer3@demo.com",
-        "phone": "+1555000301",
+        "phone": "0755000301",
         "password_hash": hash_password("demo123"),
         "role_id": ROLE_CUSTOMER_ID,
         "is_active":True
@@ -380,7 +380,7 @@ DEFAULT_RESTAURANTS = [
         "city": "San Francisco",
         "state": "CA",
         "zip_code": "94102",
-        "phone": "+1555100100",
+        "phone": "0755100100",
     },
     {
         "id": 2,
@@ -389,7 +389,7 @@ DEFAULT_RESTAURANTS = [
         "city": "San Francisco",
         "state": "CA",
         "zip_code": "94104",
-        "phone": "+1555100200",
+        "phone": "0755100200",
     },
     {
         "id": 3,
@@ -398,7 +398,7 @@ DEFAULT_RESTAURANTS = [
         "city": "San Francisco",
         "state": "CA",
         "zip_code": "94106",
-        "phone": "+1555100300",
+        "phone": "0755100300",
     },
     {
         "id": 4,
@@ -407,7 +407,7 @@ DEFAULT_RESTAURANTS = [
         "city": "San Francisco",
         "state": "CA",
         "zip_code": "94108",
-        "phone": "+1555100400",
+        "phone": "+0755100400",
     },
     {
         "id": 5,
@@ -416,7 +416,7 @@ DEFAULT_RESTAURANTS = [
         "city": "San Francisco",
         "state": "CA",
         "zip_code": "94109",
-        "phone": "+1555100500",
+        "phone": "0755100500",
     },
 ]
 

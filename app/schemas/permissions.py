@@ -5,6 +5,7 @@ from uuid import UUID
 class PermissionBase(BaseModel):
     name: str
     description: str  
+    category: str
 
 class PermissionCreate(PermissionBase):
     pass
@@ -12,6 +13,7 @@ class PermissionCreate(PermissionBase):
 class PermissionUpdate(BaseModel):
     name: Optional[str] = None
     description: Optional[str] = None
+    category: Optional[str] = None
 
 class PermissionOut(PermissionBase):
     id: int

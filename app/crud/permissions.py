@@ -9,15 +9,17 @@ MODEL = Permissions
 
 class CRUDPermission(CRUDBase[MODEL,PermissionCreate]):
     """ CRUD operations for Permissions model   """
-    def create_permission(self, db:Session, record_create:PermissionCreate):
+    def create_permission(self, db: Session, record_create: PermissionCreate):
         existing_record = self.get_record_by_field(db, "name", record_create.name)
+
         if existing_record:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail="Permission name already exists",
             )
-        
+
         return self.create(db, record_create)
+
 
     def update_permission(self, db:Session, uid:UUID, record_in:PermissionUpdate):
         record = self.get_record_by_field(db, "uid", uid)

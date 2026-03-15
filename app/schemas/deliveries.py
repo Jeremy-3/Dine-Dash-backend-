@@ -34,7 +34,7 @@ class DeliveryUpdate(BaseModel):
     
 class DeliveryOut(DeliveryBase):
     id: int
-    uid:Union[str]
+    uid:UUID
     order: Optional[OrderOut] = None
     driver: Optional[DriverOut] = None
     restaurant: Optional[RestaurantOut] = None

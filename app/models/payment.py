@@ -1,13 +1,16 @@
 from datetime import datetime, timezone
-from sqlalchemy import Column,String,Integer,TIMESTAMP,Numeric,ForeignKey,DateTime
+from sqlalchemy import Column,String,Integer,TIMESTAMP,Numeric,ForeignKey,text
 from sqlalchemy.orm import relationship
 from app.db.base import Base
+from sqlalchemy.dialects.postgresql import UUID
 
 
 class Payment(Base):
     __tablename__ = "payments"
     
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    uid = Column(UUID(as_uuid=True), unique=True, nullable=False,
+             index=True, server_default=text("gen_random_uuid()"))
     order_id = Column(Integer, ForeignKey("orders.id", ondelete="CASCADE"), nullable=False, unique=True)
     amount = Column(Numeric(10, 2), nullable=False)
     method = Column(String, default="debit_card", nullable=False)

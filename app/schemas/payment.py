@@ -3,6 +3,8 @@ from typing import Optional
 from decimal import Decimal
 from app.schemas.constants import PAYMENT_STATUSES
 from datetime import datetime
+from uuid import UUID
+
 class PaymentBase(BaseModel):
     order_id: int
     amount: Decimal
@@ -47,6 +49,7 @@ class PaymentUpdate(BaseModel):
     
 class PaymentOut(PaymentBase):
     id: int
+    uid: UUID
     paid_at: Optional[datetime] = None
 
     model_config = {"from_attributes": True}

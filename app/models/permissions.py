@@ -9,7 +9,7 @@ class Permissions(Base):
     
     id = Column(Integer, primary_key=True)
     uid = Column(UUID(as_uuid=True),unique=True,nullable=False,index=True,server_default=text("gen_random_uuid()"))      
-    name = Column(String, unique=True)
+    name = Column(String, unique=True,nullable=False)
     description=Column(Text)
     category=Column(String(50))
     

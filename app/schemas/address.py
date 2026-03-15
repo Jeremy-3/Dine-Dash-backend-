@@ -1,7 +1,7 @@
 from pydantic import BaseModel, field_validator
 from typing import Optional
 from app.schemas.order import OrderOut
-
+from uuid import UUID
 class AddressBase(BaseModel):
     order_id: int
     street: str
@@ -22,6 +22,8 @@ class AddressUpdate(BaseModel):
 
 class AddressOut(AddressBase):
     id:int
+    uid: UUID
     order: Optional[OrderOut] = None
 
     model_config = {"from_attributes": True}
+

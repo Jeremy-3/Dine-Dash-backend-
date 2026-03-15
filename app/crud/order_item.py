@@ -5,24 +5,24 @@ from app.models.order_item import OrderItem
 from app.models.order import Order
 from app.models.foods import Food
 from app.schemas.order_item import OrderItemCreate, OrderItemUpdate
-# from app.schemas.constants import ORDER_STATUSES
 from app.crud.base import CRUDBase
 
+# ── Normalized to lowercase to match ORDER_STATUS_FLOW ────────────────────────
 NON_EDITABLE_STATUSES = {
-    "CONFIRMED",
+    "confirmed",
     "preparing",
-    "in_transit",
-    "DELIVERED",
-    "CANCELLED",
+    "out_for_delivery",
+    "delivered",
+    "cancelled",
 }
 
 MODEL = OrderItem
 
 
-class CRUDOrderItem(CRUDBase[MODEL,OrderItemCreate]):
+class CRUDOrderItem(CRUDBase[MODEL, OrderItemCreate]):
     """CRUD operations for OrderItem"""
 
-    # Helpers
+    # ── Helpers ────────────────────────────────────────────────────────────────
     def _get_order(self, db: Session, order_id: int) -> Order:
         order = db.query(Order).filter(Order.id == order_id).first()
         if not order:
@@ -33,13 +33,14 @@ class CRUDOrderItem(CRUDBase[MODEL,OrderItemCreate]):
         return order
 
     def _ensure_order_editable(self, order: Order):
-        if order.status in NON_EDITABLE_STATUSES:
+        if order.status.lower() in NON_EDITABLE_STATUSES:   # ← normalize before checking
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail=f"Order cannot be modified in status '{order.status}'",
             )
 
-    def add_item(self,db: Session,item_in: OrderItemCreate):
+    # ── Add item ───────────────────────────────────────────────────────────────
+    def add_item(self, db: Session, item_in: OrderItemCreate):
         order = self._get_order(db, item_in.order_id)
         self._ensure_order_editable(order)
 
@@ -53,8 +54,9 @@ class CRUDOrderItem(CRUDBase[MODEL,OrderItemCreate]):
         item = OrderItem(
             order_id=order.id,
             food_id=food.id,
+            name=food.name,              # ← fixed: was missing, caused NOT NULL violation
             quantity=item_in.quantity,
-            price_at_order=food.price,  # snapshot price
+            price_at_order=food.price,   # snapshot price from food, ignores payload value
         )
 
         db.add(item)
@@ -66,7 +68,8 @@ class CRUDOrderItem(CRUDBase[MODEL,OrderItemCreate]):
         db.refresh(item)
         return item
 
-    def get_items_by_order(self,db: Session,order_id: int):
+    # ── Get items by order ─────────────────────────────────────────────────────
+    def get_items_by_order(self, db: Session, order_id: int):
         return (
             db.query(MODEL)
             .options(joinedload(MODEL.food))
@@ -74,7 +77,8 @@ class CRUDOrderItem(CRUDBase[MODEL,OrderItemCreate]):
             .all()
         )
 
-    def update_item(self,db: Session,item_id: int,item_in: OrderItemUpdate):
+    # ── Update item ────────────────────────────────────────────────────────────
+    def update_item(self, db: Session, item_id: int, item_in: OrderItemUpdate):
         item = db.query(MODEL).filter(MODEL.id == item_id).first()
         if not item:
             raise HTTPException(
@@ -97,7 +101,8 @@ class CRUDOrderItem(CRUDBase[MODEL,OrderItemCreate]):
         db.refresh(item)
         return item
 
-    def remove_item(self,db: Session,item_id: int):
+    # ── Remove item ────────────────────────────────────────────────────────────
+    def remove_item(self, db: Session, item_id: int):
         item = db.query(MODEL).filter(MODEL.id == item_id).first()
         if not item:
             raise HTTPException(
@@ -116,7 +121,7 @@ class CRUDOrderItem(CRUDBase[MODEL,OrderItemCreate]):
         db.commit()
         return {"detail": "Order item removed"}
 
-
+    # ── Recalculate totals ─────────────────────────────────────────────────────
     def _recalculate_order_totals(self, db: Session, order: Order):
         items = (
             db.query(MODEL)
@@ -124,12 +129,11 @@ class CRUDOrderItem(CRUDBase[MODEL,OrderItemCreate]):
             .all()
         )
 
-        subtotal = sum(
-            (item.quantity * item.price_at_order) for item in items
-        )
+        subtotal = sum(item.quantity * item.price_at_order for item in items)
 
         order.subtotal = subtotal
-        order.total = subtotal + order.delivery_fee
+        order.total    = subtotal + order.delivery_fee
         db.add(order)
+
 
 crud_order_item = CRUDOrderItem(MODEL)

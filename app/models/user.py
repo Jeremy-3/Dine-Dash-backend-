@@ -26,6 +26,7 @@ class User(Base):
     role = relationship("Roles", back_populates="users", foreign_keys=[role_id], lazy='joined')
     driver_profile = relationship("Driver", back_populates="user", uselist=False, cascade="all, delete-orphan")
     orders = relationship("Order", back_populates="customer", cascade="all, delete-orphan")
+    orders = relationship("Order",foreign_keys="Order.customer_id", back_populates="customer")
     assigned_deliveries = relationship("Delivery", foreign_keys="Delivery.assigned_by", back_populates="manager")
     
     def __repr__(self):

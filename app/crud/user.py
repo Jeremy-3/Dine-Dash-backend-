@@ -1,12 +1,12 @@
 from app.models.user import User
-from app.schemas.user import UserCreate, UserOut, UserUpdate
+from app.schemas.user import UserCreate, UserCreateDB, UserUpdate
 from sqlalchemy.orm import Session
 from app.core.security import hash_password
 from uuid import UUID
 from fastapi import HTTPException, status
 from app.models.driver import Driver
 from app.crud.base import CRUDBase
-
+from app.core.constants import ROLE_CUSTOMER_ID
 MODEL = User
 
 class CRUDUser(CRUDBase[MODEL,UserCreate]):
@@ -22,9 +22,16 @@ class CRUDUser(CRUDBase[MODEL,UserCreate]):
             )
     
         record_data = record_create.model_dump()
-        record_data['password_hash'] =hash_password(record_data['password_hash'])
+        record_data['password_hash'] =hash_password(record_data['password'])
 
-        new_user = self.create(db, UserCreate(**record_data))
+        record_data.pop("password")
+
+        if not record_data.get("role_id"):
+                record_data["role_id"] = ROLE_CUSTOMER_ID
+
+        db_obj = UserCreateDB(**record_data) 
+
+        new_user = self.create(db, db_obj)
 
         # db.commit()
         # db.refresh(new_user)
