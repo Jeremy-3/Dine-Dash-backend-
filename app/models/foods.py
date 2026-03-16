@@ -22,3 +22,4 @@ class Food(Base):
     
     # Relationships
     order_items = relationship("OrderItem", back_populates="food")
+    combo_items = relationship("ComboItem", back_populates="food")

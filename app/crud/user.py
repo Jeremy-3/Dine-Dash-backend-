@@ -39,13 +39,14 @@ class CRUDUser(CRUDBase[MODEL,UserCreate]):
         return new_user
     
 
-    def update_user(self, db:Session, uid:UUID, record_in:UserUpdate):
+    def update_user(self, db: Session, uid: UUID, record_in: UserUpdate):
         record = self.get_record_by_field(db, "uid", uid)
         if not record:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail="User not found",
             )
+
         if record_in.email and record_in.email != record.email:
             existing_record = self.get_record_by_field(db, "email", record_in.email)
             if existing_record:
@@ -53,24 +54,34 @@ class CRUDUser(CRUDBase[MODEL,UserCreate]):
                     status_code=status.HTTP_400_BAD_REQUEST,
                     detail="Email already registered",
                 )
-        if record_in.password_hash:
-            record_in.password_hash = hash_password(record_in.password_hash)
 
-        updated_user = self.update(db, record, record_in)
+        # ← was record_in.password_hash (doesn't exist on UserUpdate)
+        if record_in.password:
+            record.password_hash = hash_password(record_in.password)
 
-        # db.commit()
-        # db.refresh(updated_user)
-        return updated_user
+        # Build update dict excluding password (already handled above)
+        update_data = record_in.model_dump(exclude_unset=True, exclude={"password"})
+        for field, value in update_data.items():
+            setattr(record, field, value)
+
+        db.commit()
+        db.refresh(record)
+        return record
     
-    def apply_driver_role(self, db:Session, user:User):
-        if user.role and user.role.name.lower() == "driver":
-            existing_driver = db.query(Driver).filter(Driver.user_id == user.id).first()
-            if not existing_driver:
-                new_driver = Driver(user_id=user.id)
-                db.add(new_driver)
-                db.commit()
-                db.refresh(new_driver)
-                return new_driver
-        return None
+    def apply_driver_role(self, db: Session, user: User):
+        from app.core.constants import ROLE_DRIVER_ID
+        # Update role to driver
+        user.role_id = ROLE_DRIVER_ID
+        db.add(user)
+
+        # Create driver profile if not exists
+        existing_driver = db.query(Driver).filter(Driver.user_id == user.id).first()
+        if not existing_driver:
+            new_driver = Driver(user_id=user.id, status="available")
+            db.add(new_driver)
+
+        db.commit()
+        db.refresh(user)
+        return user 
 
 crud_user = CRUDUser(MODEL)

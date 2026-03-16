@@ -7,7 +7,7 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 # from app.core.lifespan import app_lifespan
 from sqlalchemy.exc import SQLAlchemyError
 
-from app.routes import user, roles, permissions, role_permissions, address, restaurants, foods, orders, order_item, payments, deliveries, order_status_history , driver , auth
+from app.routes import user, roles, permissions, role_permissions, address, restaurants, foods, orders, order_item, payments, deliveries, order_status_history , driver, auth, combo
 
 
 
@@ -62,6 +62,7 @@ api_router.include_router(payments.router)
 api_router.include_router(deliveries.router)
 api_router.include_router(order_status_history.router)
 api_router.include_router(driver.router)
+api_router.include_router(combo.router)
 
 
 

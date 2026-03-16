@@ -14,7 +14,7 @@ router = APIRouter(prefix="/users", tags=["users"])
 def create__user( user_create: UserCreate, db: Session = Depends(get_db)):
     new_user = crud_user.create_user(db, user_create)
 
-    return ResponseModel(data=new_user, message="User created successfully")
+    return ResponseModel(data=UserOut.model_validate(new_user), message="User created successfully")
 
 @router.get("/", response_model=ResponseModel[list[UserOut]], dependencies=[Depends(require_permission("users.view_all"))])
 def get_all_users(
@@ -40,11 +40,11 @@ def get_user(uid: UUID, db: Session = Depends(get_db)):
             status_code=status.HTTP_404_NOT_FOUND,
             detail="User not found"
         )
-    return ResponseModel(data=user, message="User retrieved successfully")
+    return ResponseModel(data=UserOut.model_validate(user), message="User retrieved successfully")
 
 @router.put("/{uid}", response_model=ResponseModel[UserOut],dependencies=[Depends(require_permission("users.edit"))])
 def update_user(uid: UUID, user_update: UserUpdate, db: Session = Depends(get_db)):
-    updated_user = crud_user.update_user(db, user_update, uid)
+    updated_user = crud_user.update_user(db, uid, user_update)
     return ResponseModel(data=updated_user, message="User updated successfully")
 
 
