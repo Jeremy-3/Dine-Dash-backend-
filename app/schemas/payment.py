@@ -1,13 +1,14 @@
 from pydantic import BaseModel,field_validator
 from typing import Optional
 from decimal import Decimal
-from app.schemas.constants import PAYMENT_STATUSES
+from app.schemas.constants import PAYMENT_STATUSES,PAYMENT_METHODS
 from datetime import datetime
 from uuid import UUID
 
 class PaymentBase(BaseModel):
     order_id: int
     amount: Decimal
+    method: str
     status: str
     method: str
 
@@ -23,6 +24,13 @@ class PaymentBase(BaseModel):
     def non_negative(cls, v):
         if v < 0:
             raise ValueError("Amount must be >= 0")
+        return v
+    
+    @field_validator("method")
+    @classmethod
+    def validate_method(cls, v):
+        if v not in PAYMENT_METHODS:
+            raise ValueError(f"Method must be one of {PAYMENT_METHODS}")
         return v
     
 class PaymentCreate(PaymentBase):
@@ -47,9 +55,15 @@ class PaymentUpdate(BaseModel):
             raise ValueError("Amount must be >= 0")
         return v
     
-class PaymentOut(PaymentBase):
+class PaymentOut(BaseModel):
     id: int
-    uid: UUID
-    paid_at: Optional[datetime] = None
+    uid:UUID
+    order_id:int
+    amount:Decimal
+    method:str
+    status:str
+    checkout_request_id:Optional[str] = None   
+    mpesa_receipt:Optional[str] = None   
+    paid_at:Optional[datetime] = None
 
     model_config = {"from_attributes": True}

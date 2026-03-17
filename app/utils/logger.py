@@ -1,7 +1,7 @@
 # app/utils/logger.py
 import logging
 
-logger = logging.getLogger("APP")
+logger = logging.getLogger("APP") 
 logger.setLevel(logging.DEBUG)
 
 # Prevent adding multiple handlers if the logger is imported multiple times

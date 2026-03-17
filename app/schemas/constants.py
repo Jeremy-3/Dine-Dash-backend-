@@ -17,11 +17,16 @@ DELIVERY_STATUSES = {
     "failed",
 }
 
+PAYMENT_METHODS  = {
+    "debit_card", 
+    "mpesa"
+}
+
 PAYMENT_STATUSES = {
-    "pending",
-    "paid",
-    "failed",
-    "refunded",
+    "pending", 
+    "success", 
+    "failed", 
+    "cancelled"
 }
 
 DRIVER_STATUSES = {

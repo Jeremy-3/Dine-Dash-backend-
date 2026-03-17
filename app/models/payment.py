@@ -13,7 +13,10 @@ class Payment(Base):
              index=True, server_default=text("gen_random_uuid()"))
     order_id = Column(Integer, ForeignKey("orders.id", ondelete="CASCADE"), nullable=False, unique=True)
     amount = Column(Numeric(10, 2), nullable=False)
-    method = Column(String, default="debit_card", nullable=False)
+    method = Column(String, nullable=False)
+    phone = Column(String(20), nullable=True)
+    checkout_request_id = Column(String(255), unique=True, nullable=True)
+    mpesa_receipt = Column(String(255), unique=True, nullable=True)
     status = Column(String, default="pending",nullable=False)
     paid_at = Column(TIMESTAMP(timezone=True), default=lambda: datetime.now(timezone.utc)) # timezone = True ensures that the column is timezone-aware. # lambda function, ensures that a new timestamp is generated each time a record is created or updated.
 

@@ -20,9 +20,22 @@ class Settings(BaseSettings):
     MAIL_PASSWORD:str
     MAIL_PORT:int
     MAIL_FROM:str
+    # M-Pesa
+    MPESA_CONSUMER_KEY:    str = ""
+    MPESA_CONSUMER_SECRET: str = ""
+    MPESA_SHORTCODE:       str = "174379"
+    MPESA_PASSKEY:         str = ""
+    MPESA_CALLBACK_URL:    str = ""
+    MPESA_ENV:             str = "sandbox"  # "sandbox" or "production"
+
+    @property
+    def MPESA_BASE_URL(self) -> str:
+        if self.MPESA_ENV == "production":
+            return "https://api.safaricom.co.ke"
+        return "https://sandbox.safaricom.co.ke"
     
 
-    class Config:
+    class Config: 
         env_file = ".env"
         extra="forbid"
 
