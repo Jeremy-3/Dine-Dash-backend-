@@ -17,6 +17,8 @@ class Payment(Base):
     phone = Column(String(20), nullable=True)
     checkout_request_id = Column(String(255), unique=True, nullable=True)
     mpesa_receipt = Column(String(255), unique=True, nullable=True)
+    tx_ref = Column(String(255), nullable=True, unique=True)
+    flw_tx_id = Column(String(100), nullable=True)
     status = Column(String, default="pending",nullable=False)
     paid_at = Column(TIMESTAMP(timezone=True), default=lambda: datetime.now(timezone.utc)) # timezone = True ensures that the column is timezone-aware. # lambda function, ensures that a new timestamp is generated each time a record is created or updated.
 

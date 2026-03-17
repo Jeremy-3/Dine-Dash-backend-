@@ -27,6 +27,17 @@ class Settings(BaseSettings):
     MPESA_PASSKEY:         str = ""
     MPESA_CALLBACK_URL:    str = ""
     MPESA_ENV:             str = "sandbox"  # "sandbox" or "production"
+    # Flutterwave
+    FLW_PUBLIC_KEY:      str = ""
+    FLW_SECRET_KEY:      str = ""
+    FLW_ENCRYPTION_KEY:  str = ""
+    FLW_CALLBACK_URL:    str = ""
+    FLW_REDIRECT_URL:    str = ""
+    FLW_ENV:             str = "test"
+
+    @property
+    def FLW_BASE_URL(self) -> str:
+        return "https://api.flutterwave.com/v3"
 
     @property
     def MPESA_BASE_URL(self) -> str:
