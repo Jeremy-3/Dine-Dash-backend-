@@ -9,7 +9,7 @@ from app.core.config import settings
 from app.db.utils import db_context
 from app.db.base import Base
 from app.db.local_connector import engine
-
+from app.core.security import hash_password
 from app.core.constants import (
     DEFAULT_ROLES,
     DEFAULT_PERMISSIONS,
@@ -24,6 +24,7 @@ from app.core.constants import (
     DEFAULT_PAYMENTS,
     DEFAULT_DELIVERIES,
     DEFAULT_ORDER_STATUS_HISTORY,
+    ROLE_SUPERADMIN_ID,
 )
 
 from app.models.roles import Roles
@@ -96,11 +97,11 @@ def seed_superadmin(db):
         return
 
     user = User(
-        name=settings.SUPERADMIN_NAME or "Superadmin",
+        name=settings.SUPERADMIN_NAME,
         email=settings.SUPERADMIN_EMAIL,
-        phone=settings.SUPERADMIN_PHONE or "",
-        password=settings.SUPERADMIN_PASSWORD or "ChangeMe123!",
-        role_id=1,  # assuming role_id=1 is admin
+        phone=settings.SUPERADMIN_PHONE,
+        password_hash=hash_password(settings.SUPERADMIN_PASSWORD),
+        role_id=ROLE_SUPERADMIN_ID
     )
     db.add(user)
     db.commit()
