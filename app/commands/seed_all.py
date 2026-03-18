@@ -5,7 +5,7 @@ Run with:
 """
 
 from sqlalchemy.exc import IntegrityError
-from app.core.config import Settings as settings
+from app.core.config import settings 
 from app.db.utils import db_context
 from app.db.base import Base
 from app.db.local_connector import engine
