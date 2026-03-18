@@ -41,7 +41,7 @@ from app.models.address import Address
 from app.models.payment import Payment
 from app.models.deliveries import Delivery
 from app.models.order_status_history import OrderStatusHistory
-from app.models.combo import Combo 
+from app.models.combo import Combo ,ComboItem
 
 
 def seed_table(db, model, data, table_name: str, flush: bool = False):
@@ -109,6 +109,28 @@ def seed_superadmin(db):
     db.commit()
     print("✓ SUPERADMIN created")
 
+def seed_combos(db):
+    print("Seeding combos...")
+    created = 0
+
+    for row in DEFAULT_COMBOS:
+        if db.get(Combo, row["id"]):
+            continue
+
+        items = row.get("items", [])
+        row_data = {k: v for k, v in row.items() if k != "items"}
+        combo = Combo(**row_data)
+        db.add(combo)
+        db.flush()  # get the combo.id before inserting items
+
+        for item in items:
+            combo_item = ComboItem(combo_id=combo.id, **item)
+            db.add(combo_item)
+
+        created += 1
+
+    db.commit()
+    print(f"✓ Inserted {created} combos")
 
 def seed_all():
     print("\n" + "=" * 60)
@@ -139,8 +161,8 @@ def seed_all():
             # === RESTAURANTS & FOODS ===
             seed_table(db, Restaurant, DEFAULT_RESTAURANTS, "restaurants", flush=True)
             seed_table(db, Food, DEFAULT_FOODS, "foods")
-            seed_table(db, Combo, DEFAULT_COMBOS, "combos")
-
+            seed_combos(db)
+            
             # === ORDERS ===
             seed_table(db, Order, DEFAULT_ORDERS, "orders", flush=True)
             seed_table(db, OrderItem, DEFAULT_ORDER_ITEMS, "order items")
