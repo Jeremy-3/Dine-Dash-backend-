@@ -1,39 +1,39 @@
 from pydantic_settings import BaseSettings
+from typing import Optional
 
 class Settings(BaseSettings):
-    DATABASE_URL:str
-    APP_ENV:str
+    DATABASE_URL: str
+
+    APP_ENV: str = "production"
     DEBUG: bool = False 
-    # REDIS_URL : str
-    # REDIS_HOST:str
-    # REDIS_PORT:int
-    ACCESS_TOKEN_EXPIRE_SECONDS:int
-    OTP_TOKEN_EXPIRE_SECONDS:int
-    JWT_SECRET_KEY:str
-    JWT_ALGORITHM:str
-    SUPERADMIN_NAME:str
-    SUPERADMIN_EMAIL:str
-    SUPERADMIN_PASSWORD:str
-    SUPERADMIN_PHONE:str
-    MAIL_SERVER:str
-    MAIL_USERNAME:str
-    MAIL_PASSWORD:str
-    MAIL_PORT:int
-    MAIL_FROM:str
+
+    ACCESS_TOKEN_EXPIRE_SECONDS: int = 3600
+    OTP_TOKEN_EXPIRE_SECONDS: int = 300
+
+    JWT_SECRET_KEY: str = "not-secret-key"
+    JWT_ALGORITHM: str = "HS256"
+
+    SUPERADMIN_NAME: Optional[str] = None
+    SUPERADMIN_EMAIL: Optional[str] = None
+    SUPERADMIN_PASSWORD: Optional[str] = None
+    SUPERADMIN_PHONE: Optional[str] = None
+
+
     # M-Pesa
-    MPESA_CONSUMER_KEY:    str = ""
+    MPESA_CONSUMER_KEY: str = ""
     MPESA_CONSUMER_SECRET: str = ""
-    MPESA_SHORTCODE:       str = "174379"
-    MPESA_PASSKEY:         str = ""
-    MPESA_CALLBACK_URL:    str = ""
-    MPESA_ENV:             str = "sandbox"  # "sandbox" or "production"
+    MPESA_SHORTCODE: str = "174379"
+    MPESA_PASSKEY: str = ""
+    MPESA_CALLBACK_URL: str = ""
+    MPESA_ENV: str = "sandbox"
+
     # Flutterwave
-    FLW_PUBLIC_KEY:      str = ""
-    FLW_SECRET_KEY:      str = ""
-    FLW_ENCRYPTION_KEY:  str = ""
-    FLW_CALLBACK_URL:    str = ""
-    FLW_REDIRECT_URL:    str = ""
-    FLW_ENV:             str = "test"
+    FLW_PUBLIC_KEY: str = ""
+    FLW_SECRET_KEY: str = ""
+    FLW_ENCRYPTION_KEY: str = ""
+    FLW_CALLBACK_URL: str = ""
+    FLW_REDIRECT_URL: str = ""
+    FLW_ENV: str = "test"
 
     @property
     def FLW_BASE_URL(self) -> str:
@@ -44,10 +44,7 @@ class Settings(BaseSettings):
         if self.MPESA_ENV == "production":
             return "https://api.safaricom.co.ke"
         return "https://sandbox.safaricom.co.ke"
-    
 
-    class Config: 
+    class Config:
         env_file = ".env"
-        extra="forbid"
-
-settings = Settings()
+        extra = "ignore"   # 🔥 IMPORTANT change
