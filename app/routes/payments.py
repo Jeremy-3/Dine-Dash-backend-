@@ -13,7 +13,7 @@ router = APIRouter(prefix="/payments", tags=["payments"])
 @router.post(
     "/",
     response_model=ResponseModel[PaymentOut],
-    dependencies=[Depends(require_permission("payment.process"))]
+    dependencies=[Depends(require_permission("payments.process"))]
 )
 def create_payment(payment_create: PaymentCreate, db: Session = Depends(get_db)):
     new_payment = crud_payment.create_payment(db, payment_create)
