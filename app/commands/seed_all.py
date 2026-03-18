@@ -25,6 +25,7 @@ from app.core.constants import (
     DEFAULT_DELIVERIES,
     DEFAULT_ORDER_STATUS_HISTORY,
     ROLE_SUPERADMIN_ID,
+    DEFAULT_COMBOS,
 )
 
 from app.models.roles import Roles
@@ -40,6 +41,7 @@ from app.models.address import Address
 from app.models.payment import Payment
 from app.models.deliveries import Delivery
 from app.models.order_status_history import OrderStatusHistory
+from app.models.combo import Combo 
 
 
 def seed_table(db, model, data, table_name: str, flush: bool = False):
@@ -137,6 +139,7 @@ def seed_all():
             # === RESTAURANTS & FOODS ===
             seed_table(db, Restaurant, DEFAULT_RESTAURANTS, "restaurants", flush=True)
             seed_table(db, Food, DEFAULT_FOODS, "foods")
+            seed_table(db, Combo, DEFAULT_COMBOS, "combos")
 
             # === ORDERS ===
             seed_table(db, Order, DEFAULT_ORDERS, "orders", flush=True)
