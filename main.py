@@ -22,6 +22,7 @@ app = FastAPI(
 )
 # @app.on_event("startup")
 # def startup_event():
+#     print("⚙️  Starting up Dine & Dash API...")
 #     routes = []
 #     for route in app.routes:
 #         if hasattr(route, 'path'):
@@ -29,6 +30,11 @@ app = FastAPI(
 #     print("\n🚀 Registered Routes:")
 #     for route in sorted(routes):
 #         print(f"  {route}")
+
+
+@app.get("/")
+def root():
+    return {"message":"⚙️  Starting up Dine & Dash API..."}
 
 
 app.add_middleware(

@@ -119,6 +119,7 @@ DEFAULT_ROLE_PERMISSIONS = {
         52, 53, 54, 55,             # combos
         56, 57, 58, 59, 60, 61,     # analytics
         62,                         # dashboard
+        7,8,9,10,11,                # roles and permissions
     ],
 
     ROLE_MANAGER_ID: [
